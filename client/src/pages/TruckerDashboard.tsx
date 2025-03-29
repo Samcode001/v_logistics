@@ -7,7 +7,7 @@ const TruckerDashboard = () => {
   const [truckers, setTruckers] = useState<{ [key: string]: { lat: number; lng: number } }>({});
 
   useEffect(() => {
-    ws.current = new WebSocket("ws://localhost:8080");
+    ws.current = new WebSocket("https://v-logistics-1.onrender.com/");
 
     ws.current.onopen = () => console.log("WebSocket Connected");
     ws.current.onclose = () => console.log("WebSocket Disconnected");
@@ -22,7 +22,7 @@ const TruckerDashboard = () => {
           };
 
           // Send location update to backend
-          fetch("http://localhost:3000/api/v1/trucker/update-location", {
+          fetch("https://v-logistics.onrender.com/api/v1/trucker/update-location", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

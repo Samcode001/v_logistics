@@ -57,7 +57,7 @@ export default function ShipperDashboard() {
   //           };
 
   //           // Send location update to backend
-  //           fetch("http://localhost:3000/api/v1/trucker/update-location", {
+  //           fetch("https://v-logistics.onrender.com/api/v1/trucker/update-location", {
   //             method: "POST",
   //             headers: { "Content-Type": "application/json" },
   //             body: JSON.stringify({
@@ -75,7 +75,7 @@ export default function ShipperDashboard() {
 
   const getTrucksLocations = async () => {
     const { data } = await axios.get(
-      "http://localhost:3000/api/v1/trucker/locations"
+      "https://v-logistics.onrender.com/api/v1/trucker/locations"
     );
     const formattedData = data.reduce((acc: any, trucker: any) => {
       acc[trucker.id] = {
