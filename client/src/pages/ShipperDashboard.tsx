@@ -93,6 +93,8 @@ export default function ShipperDashboard() {
     setTruckers(formattedData);
   };
   useEffect(() => {
+    // setInterval(() => {
+    // }, 5000);
     getTrucksLocations();
   }, []);
 

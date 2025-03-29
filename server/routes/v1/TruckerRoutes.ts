@@ -93,6 +93,7 @@ router.post("/login", async (req, res) => {
     );
     res.json({
       token,
+      truckerId: trucker.id,
     });
   } catch (e) {
     res.status(400).json({ message: "Internal server error" });

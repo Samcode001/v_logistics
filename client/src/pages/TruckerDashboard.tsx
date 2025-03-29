@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const TruckerDashboard = () => {
-  const truckerId = "38a51c27-bce8-44ad-b5aa-0c26d7d25b0f"; // Replace dynamically
+  // const truckerId = "38a51c27-bce8-44ad-b5aa-0c26d7d25b0f"; // Replace dynamically
+
   // fcb0c593-49b0-4b39-94af-ac74ebfd7357
   const ws = useRef<WebSocket | null>(null);
   const [truckers, setTruckers] = useState<{
@@ -11,7 +12,7 @@ const TruckerDashboard = () => {
   }>({});
 
   const navigate = useNavigate();
-
+  const truckerId = localStorage.getItem("truckerId");
   useEffect(() => {
     ws.current = new WebSocket("https://v-logistics-1.onrender.com/");
 

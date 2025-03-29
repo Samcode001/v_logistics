@@ -60,6 +60,9 @@ const LoginPage = () => {
 
       localStorage.setItem(`token_${role}`, response.data.token);
       localStorage.setItem("role", role);
+      if (role === "trucker") {
+        localStorage.setItem("truckerId", response.data.truckerId);
+      }
     } catch (error: any) {
       console.error("Login Failed:", error.response?.data || error.message);
       alert(error.response?.data?.message || "Login failed. Please try again.");
