@@ -1,0 +1,42 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0px rgba(255, 0, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 35px rgba(255, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0px rgba(255, 0, 0, 0);
+  }
+}
+
+.pulse-container {
+  position: relative;
+  width: 40px; /* Adjust based on your truck image */
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pulse-effect {
+  position: absolute;
+  width: 20px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 0, 0, 0.1); /* Adjust color */
+  animation: pulse 1.5s infinite;
+}
+
+.truck-icon {
+  width: 20px; /* Adjust based on your truck image */
+  height: auto;
+  position: relative;
+  z-index: 1; /* Keep the truck icon above the pulse */
+}

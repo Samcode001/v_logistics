@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Shipper {
+  id          String   @id @default(uuid())
+  username    String   @unique
+  password    String
+  phone       String
+  mc_dot      String
+  carrierType String
+  country     String
+  state       String
+  city        String
+  zipcode     String
+  fleetSize   String
+  address     String
+  createdAt   DateTime @default(now())
+
+  shipments Shipment[]
+}
+
+model Trucker {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  password     String
+  phone        String
+  licenseNo    String   @unique
+  vehicleType  String
+  latitude     Float?   
+  longitude    Float?
+  availability Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  bids      Bid[]
+  shipments Shipment[]
+}
+
+model Shipment {
+  id        String         @id @default(uuid())
+  shipperId String
+  truckerId String?
+  pickup    String
+  dropoff   String
+  weight    Float
+  status    ShipmentStatus @default(BIDDING)
+  basePrice Float
+  createdAt DateTime       @default(now())
+
+  shipper Shipper  @relation(fields: [shipperId], references: [id])
+  trucker Trucker? @relation(fields: [truckerId], references: [id])
+  bids    Bid[]
+}
+
+model Bid {
+  id         String   @id @default(uuid())
+  truckerId  String
+  shipmentId String
+  amount     Float
+  createdAt  DateTime @default(now())
+
+  trucker  Trucker  @relation(fields: [truckerId], references: [id])
+  shipment Shipment @relation(fields: [shipmentId], references: [id])
+}
+
+enum ShipmentStatus {
+  BIDDING
+  IN_PROGRESS
+  DELIVERED
+  CANCELLED
+}
