@@ -27,7 +27,12 @@ export default function Navbar() {
       {/* Navbar */}
       <AppBar
         position="static"
-        sx={{ backgroundColor: "whitesmoke", height: "50px", boxShadow: "0px 0px 8px 1em rgba(0, 0, 0, 0.2)"}}
+        sx={{
+          backgroundColor: "whitesmoke",
+          display: "flex",
+          height: "50px",
+          boxShadow: "0px 0px 8px 1em rgba(0, 0, 0, 0.2)",
+        }}
       >
         <Toolbar>
           {/* Brand Name */}
@@ -40,7 +45,9 @@ export default function Navbar() {
           />
 
           {/* Desktop Links */}
-          <Box sx={{ display: { xs: "none", md: "block" ,marginLeft:"1rem"} }}>
+          <Box
+            sx={{ display: { xs: "none", md: "block", marginLeft: "1rem" } }}
+          >
             {navItems.map((item) => (
               <Button key={item} sx={{ color: "black" }}>
                 {item}

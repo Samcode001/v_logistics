@@ -56,9 +56,10 @@ const LoginPage = () => {
 
       console.log("Login Successful:", response.data);
 
-      role === "trucker" ? navigate("/trucker") : navigate("/");
+      role === "trucker" ? navigate("/trucker") : navigate("/shipper");
 
       localStorage.setItem("token", response.data.token);
+      localStorage.setItem("role", role);
     } catch (error: any) {
       console.error("Login Failed:", error.response?.data || error.message);
       alert(error.response?.data?.message || "Login failed. Please try again.");
