@@ -42,7 +42,7 @@ router.post("/signup", async (req, res) => {
   try {
     const shipper = await client.shipper.create({
       data: {
-        username,
+        username: username.toLowerCase(),
         password: hashedPassword,
         phone,
         mc_dot,
@@ -79,7 +79,7 @@ router.post("/login", async (req, res) => {
   try {
     const shipper = await client.shipper.findUnique({
       where: {
-        username: parsedData.data.username,
+        username: parsedData.data.username.toLowerCase(),
       },
     });
     if (!shipper) {

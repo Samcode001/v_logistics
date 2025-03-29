@@ -36,7 +36,7 @@ router.post("/signup", async (req, res) => {
   try {
     const trucker = await client.trucker.create({
       data: {
-        username,
+        username: username.toLowerCase(),
         password: hashedPassword,
         phone,
         vehicleType,
@@ -70,7 +70,7 @@ router.post("/login", async (req, res) => {
   try {
     const trucker = await client.trucker.findUnique({
       where: {
-        username: parsedData.data.username,
+        username: parsedData.data.username.toLowerCase(),
       },
     });
     if (!trucker) {
