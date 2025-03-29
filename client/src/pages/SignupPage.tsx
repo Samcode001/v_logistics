@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   TextField,
   Button,
@@ -155,7 +155,7 @@ const SignupPage = () => {
         <ToggleButtonGroup
           value={role}
           exclusive
-          onChange={(e, newRole) => newRole && setRole(newRole)}
+          onChange={(_, newRole) => newRole && setRole(newRole)}
           sx={{ mb: 1, mx: 2 }}
         >
           <ToggleButton

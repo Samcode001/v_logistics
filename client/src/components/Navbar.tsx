@@ -3,7 +3,6 @@ import {
   Box,
   Toolbar,
   IconButton,
-  Typography,
   Button,
   Drawer,
   List,

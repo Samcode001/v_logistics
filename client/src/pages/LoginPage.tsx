@@ -56,7 +56,7 @@ const LoginPage = () => {
 
       console.log("Login Successful:", response.data);
 
-     role === "trucker" ? navigate("/trucker") : navigate("/");
+      role === "trucker" ? navigate("/trucker") : navigate("/");
 
       localStorage.setItem("token", response.data.token);
     } catch (error: any) {
@@ -100,7 +100,7 @@ const LoginPage = () => {
         <ToggleButtonGroup
           value={role}
           exclusive
-          onChange={(e, newRole) => newRole && setRole(newRole)}
+          onChange={(_, newRole) => newRole && setRole(newRole)}
           sx={{ mb: 1, marginLeft: "2rem" }}
         >
           <ToggleButton
