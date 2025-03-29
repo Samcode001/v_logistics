@@ -1,9 +1,13 @@
 import { LoginSchema, ShippersignupSchema } from "../../types";
-import express from "express";
+import express, { Request } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { JWT_PASSWORD } from "../../config";
 import client from "../../db/index";
+import {
+  AuthenticatedRequest,
+  authenticateJwt,
+} from "../../middleware/authenticateJwt";
 
 export const router = express.Router();
 
@@ -102,4 +106,8 @@ router.post("/login", async (req, res) => {
   } catch (e) {
     res.status(400).json({ message: "Internal server error" });
   }
+});
+
+router.get("/me", authenticateJwt, async (req, res) => {
+  res.status(200).json({ message: "Hello, you are logged in" });
 });

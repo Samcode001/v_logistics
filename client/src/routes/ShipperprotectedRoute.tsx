@@ -8,7 +8,7 @@ interface ProtectedRouteProps {
 const ShipperprotectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const role = localStorage.getItem("role");
 
-  return role === "shipper" ? children : <Navigate to="/" />;
+  return role === "shipper" ? children : <Navigate to="/login" />;
 };
 
 export default ShipperprotectedRoute;

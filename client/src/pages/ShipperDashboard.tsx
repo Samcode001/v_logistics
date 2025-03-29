@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css";
 import truckIcon from "../assets/truck_icon.png"; // Custom marker
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const truckMarker = L.divIcon({
   // iconUrl: truckIcon,
@@ -26,6 +27,8 @@ export default function ShipperDashboard() {
       vehicleType: string;
     };
   }>({});
+
+  const navigate = useNavigate();
 
   const truckersList = [
     {
@@ -89,9 +92,21 @@ export default function ShipperDashboard() {
     }, {});
     setTruckers(formattedData);
   };
-  console.log(truckers);
   useEffect(() => {
     getTrucksLocations();
+  }, []);
+
+  const getLoginStatus = async () => {
+    try {
+      await axios.get("https://v-logistics.onrender.com/api/v1/shipper/me");
+    } catch (error) {
+      console.log("not loggedIn");
+      navigate("/login");
+    }
+  };
+
+  useEffect(() => {
+    getLoginStatus();
   }, []);
 
   return (

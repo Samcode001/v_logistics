@@ -56,7 +56,7 @@ const LoginPage = () => {
 
       console.log("Login Successful:", response.data);
 
-      role === "trucker" ? navigate("/trucker") : navigate("/shipper");
+      role === "trucker" ? navigate("/trucker") : navigate("/");
 
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("role", role);

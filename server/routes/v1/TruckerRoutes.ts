@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { JWT_PASSWORD } from "../../config";
 import client from "../../db/index";
+import { authenticateJwt } from "../../middleware/authenticateJwt";
 
 export const router = express.Router();
 
@@ -136,4 +137,8 @@ router.get("/locations", async (req, res) => {
     console.error("Error fetching locations:", error);
     res.status(500).json({ error: "Failed to retrieve locations" });
   }
+});
+
+router.get("/me", authenticateJwt, async (req, res) => {
+  res.status(200).json({ message: "Hello, you are logged in" });
 });
