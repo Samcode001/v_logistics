@@ -1,10 +1,16 @@
+import axios from "axios";
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const TruckerDashboard = () => {
   const truckerId = "38a51c27-bce8-44ad-b5aa-0c26d7d25b0f"; // Replace dynamically
   // fcb0c593-49b0-4b39-94af-ac74ebfd7357
   const ws = useRef<WebSocket | null>(null);
-  const [truckers, setTruckers] = useState<{ [key: string]: { lat: number; lng: number } }>({});
+  const [truckers, setTruckers] = useState<{
+    [key: string]: { lat: number; lng: number };
+  }>({});
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     ws.current = new WebSocket("https://v-logistics-1.onrender.com/");
@@ -22,15 +28,18 @@ const TruckerDashboard = () => {
           };
 
           // Send location update to backend
-          fetch("https://v-logistics.onrender.com/api/v1/trucker/update-location", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              id: data.truckerId,
-              lat: data.lat,
-              lng: data.lng,
-            }),
-          });
+          fetch(
+            "https://v-logistics.onrender.com/api/v1/trucker/update-location",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                id: data.truckerId,
+                lat: data.lat,
+                lng: data.lng,
+              }),
+            }
+          );
 
           return updatedTruckers;
         });
@@ -66,6 +75,31 @@ const TruckerDashboard = () => {
   useEffect(() => {
     const interval = setInterval(sendLocation, 35000);
     return () => clearInterval(interval);
+  }, []);
+
+  const getLoginStatus = async () => {
+    const token = localStorage.getItem("token_trucker");
+
+    if (!token) {
+      console.log("No token found, redirecting...");
+      navigate("/login");
+      return;
+    }
+
+    try {
+      await axios.get("https://v-logistics.onrender.com/api/v1/trucker/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      console.error("Login check failed:", error);
+      navigate("/login");
+    }
+  };
+
+  useEffect(() => {
+    getLoginStatus();
   }, []);
 
   return (

@@ -97,11 +97,23 @@ export default function ShipperDashboard() {
   }, []);
 
   const getLoginStatus = async () => {
-    try {
-      await axios.get("https://v-logistics.onrender.com/api/v1/shipper/me");
-    } catch (error) {
-      console.log("not loggedIn");
+    const token = localStorage.getItem("token_shipper");
+
+    if (!token) {
+      console.log("No token found, redirecting...");
       navigate("/login");
+      return;
+    }
+
+    try {
+      await axios.get("https://v-logistics.onrender.com/api/v1/shipper/me", {
+        headers: {
+          Authorization: `Bearer ${token}`, // ✅ Send token in headers
+        },
+      });
+    } catch (error) {
+      console.error("Login check failed:", error);
+      navigate("/login"); // Redirect on failure
     }
   };
 
