@@ -73,7 +73,7 @@ const TruckerDashboard = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(sendLocation, 35000);
+    const interval = setInterval(sendLocation, 10000);
     return () => clearInterval(interval);
   }, []);
 
