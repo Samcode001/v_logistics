@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import truckIcon from "../assets/truck_icon.png"; // Custom marker
+import truckIcon from "../assets/truck_icon.png"; 
 import { Box, Button, Card, CardContent, Typography } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -60,7 +60,7 @@ export default function ShipperDashboard() {
   //           };
 
   //           // Send location update to backend
-  //           fetch("http://localhost:3000/api/v1/trucker/update-location", {
+  //           fetch("https://v-logistics.onrender.com/api/v1/trucker/update-location", {
   //             method: "POST",
   //             headers: { "Content-Type": "application/json" },
   //             body: JSON.stringify({
@@ -78,7 +78,7 @@ export default function ShipperDashboard() {
 
   const getTrucksLocations = async () => {
     const { data } = await axios.get(
-      "http://localhost:3000/api/v1/trucker/locations"
+      "https://v-logistics.onrender.com/api/v1/trucker/locations"
     );
     const formattedData = data.reduce((acc: any, trucker: any) => {
       acc[trucker.id] = {
@@ -108,14 +108,14 @@ export default function ShipperDashboard() {
     }
 
     try {
-      await axios.get("http://localhost:3000/api/v1/shipper/me", {
+      await axios.get("https://v-logistics.onrender.com/api/v1/shipper/me", {
         headers: {
-          Authorization: `Bearer ${token}`, // ✅ Send token in headers
+          Authorization: `Bearer ${token}`, 
         },
       });
     } catch (error) {
       console.error("Login check failed:", error);
-      navigate("/login"); // Redirect on failure
+      navigate("/login");
     }
   };
 
@@ -129,7 +129,7 @@ export default function ShipperDashboard() {
       <MapContainer
         center={[27.6139, 80.209]}
         zoom={7}
-        style={{ height: "100vh", width: "100vw", position: "relative" }} // Ensure proper layering
+        style={{ height: "100vh", width: "100vw", position: "relative" }} 
       >
         <TileLayer
           url="https://api.maptiler.com/maps/basic-v2/256/{z}/{x}/{y}.png?key=DtK0meZ6bsZfcWUmk05M"
@@ -174,11 +174,11 @@ export default function ShipperDashboard() {
           right: "10px",
           bottom: "10px",
           width: "350px",
-          backgroundColor: "rgba(255, 255, 255, 0.9)", // Semi-transparent white background
+          backgroundColor: "rgba(255, 255, 255, 0.9)", 
           padding: "1rem",
           borderRadius: "10px",
           boxShadow: 3,
-          zIndex: 1000, // Ensure it's above the map
+          zIndex: 1000, 
         }}
       >
         <Typography variant="h6" textAlign="center" fontWeight="bold">

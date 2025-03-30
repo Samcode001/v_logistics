@@ -13,7 +13,6 @@ export const router = express.Router();
 
 router.post("/signup", async (req, res) => {
   console.log("inside signup");
-  // check the user
   const parsedData = ShippersignupSchema.safeParse(req.body);
   if (!parsedData.success) {
     console.log("parsed data incorrect");

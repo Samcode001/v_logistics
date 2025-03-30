@@ -3,9 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const TruckerDashboard = () => {
-  // const truckerId = "38a51c27-bce8-44ad-b5aa-0c26d7d25b0f"; // Replace dynamically
-
-  // fcb0c593-49b0-4b39-94af-ac74ebfd7357
   const ws = useRef<WebSocket | null>(null);
   const [truckers, setTruckers] = useState<{
     [key: string]: { lat: number; lng: number };
@@ -14,8 +11,8 @@ const TruckerDashboard = () => {
   const navigate = useNavigate();
   const truckerId = localStorage.getItem("truckerId");
   useEffect(() => {
-    // ws.current = new WebSocket("https://v-logistics-1.onrender.com/");
-    ws.current = new WebSocket("http://localhost:8080/");
+    ws.current = new WebSocket("https://v-logistics-1.onrender.com/");
+    // ws.current = new WebSocket("http://localhost:8080/");
 
     ws.current.onopen = () => console.log("WebSocket Connected");
     ws.current.onclose = () => console.log("WebSocket Disconnected");
@@ -29,8 +26,8 @@ const TruckerDashboard = () => {
             [data.truckerId]: { lat: data.lat, lng: data.lng },
           };
 
-          // Send location update to backend
-          fetch("http://localhost:3000/api/v1/trucker/update-location", {
+      
+          fetch("https://v-logistics.onrender.com/api/v1/trucker/update-location", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -64,7 +61,7 @@ const TruckerDashboard = () => {
           };
           ws.current?.send(JSON.stringify(data));
         },
-        (error) => console.error("Geolocation error:", error.message) // Handle errors
+        (error) => console.error("Geolocation error:", error.message)
       );
     } else {
       console.error("Geolocation not supported");
@@ -86,7 +83,7 @@ const TruckerDashboard = () => {
     }
 
     try {
-      await axios.get("http://localhost:3000/api/v1/trucker/me", {
+      await axios.get("https://v-logistics.onrender.com/api/v1/trucker/me", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
