@@ -19,6 +19,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = require("../../config");
 const index_1 = __importDefault(require("../../db/index"));
+const authenticateJwt_1 = require("../../middleware/authenticateJwt");
 exports.router = express_1.default.Router();
 exports.router.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("inside signup");
@@ -37,7 +38,7 @@ exports.router.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, f
     try {
         const shipper = yield index_1.default.shipper.create({
             data: {
-                username,
+                username: username.toLowerCase(),
                 password: hashedPassword,
                 phone,
                 mc_dot,
@@ -73,7 +74,7 @@ exports.router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, fu
     try {
         const shipper = yield index_1.default.shipper.findUnique({
             where: {
-                username: parsedData.data.username,
+                username: parsedData.data.username.toLowerCase(),
             },
         });
         if (!shipper) {
@@ -95,4 +96,7 @@ exports.router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, fu
     catch (e) {
         res.status(400).json({ message: "Internal server error" });
     }
+}));
+exports.router.get("/me", authenticateJwt_1.authenticateJwt, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.status(200).json({ message: "Hello, you are logged in" });
 }));

@@ -60,7 +60,7 @@ export default function ShipperDashboard() {
   //           };
 
   //           // Send location update to backend
-  //           fetch("https://v-logistics.onrender.com/api/v1/trucker/update-location", {
+  //           fetch("http://localhost:3000/api/v1/trucker/update-location", {
   //             method: "POST",
   //             headers: { "Content-Type": "application/json" },
   //             body: JSON.stringify({
@@ -78,7 +78,7 @@ export default function ShipperDashboard() {
 
   const getTrucksLocations = async () => {
     const { data } = await axios.get(
-      "https://v-logistics.onrender.com/api/v1/trucker/locations"
+      "http://localhost:3000/api/v1/trucker/locations"
     );
     const formattedData = data.reduce((acc: any, trucker: any) => {
       acc[trucker.id] = {
@@ -93,9 +93,9 @@ export default function ShipperDashboard() {
     setTruckers(formattedData);
   };
   useEffect(() => {
-    // setInterval(() => {
-    // }, 5000);
     getTrucksLocations();
+    const interval = setInterval(getTrucksLocations, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   const getLoginStatus = async () => {
@@ -108,7 +108,7 @@ export default function ShipperDashboard() {
     }
 
     try {
-      await axios.get("https://v-logistics.onrender.com/api/v1/shipper/me", {
+      await axios.get("http://localhost:3000/api/v1/shipper/me", {
         headers: {
           Authorization: `Bearer ${token}`, // ✅ Send token in headers
         },

@@ -11,16 +11,21 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const navItems = ["Home", "Truckers", "Shippers", "Contact"];
+  const navItems = [
+    { Title: "Home", path: "/" },
+    { Title: "Inbox", path: "/inbox" },
+    { Title: "Contact", path: "#" },
+  ];
 
   return (
     <>
@@ -48,9 +53,13 @@ export default function Navbar() {
           <Box
             sx={{ display: { xs: "none", md: "block", marginLeft: "1rem" } }}
           >
-            {navItems.map((item) => (
-              <Button key={item} sx={{ color: "black" }}>
-                {item}
+            {navItems.map((item, index) => (
+              <Button
+                key={index}
+                onClick={() => navigate(item.path)}
+                sx={{ color: "black" }}
+              >
+                {item.Title}
               </Button>
             ))}
           </Box>
@@ -72,7 +81,7 @@ export default function Navbar() {
       <Drawer anchor="right" open={mobileOpen} onClose={handleDrawerToggle}>
         <Box sx={{ width: 250 }}>
           <List>
-            {navItems.map((item) => (
+            {navItems.map((item: any) => (
               <ListItem component={Link} to={`/some-path/${item}`} key={item}>
                 <ListItemText primary={item} />
               </ListItem>

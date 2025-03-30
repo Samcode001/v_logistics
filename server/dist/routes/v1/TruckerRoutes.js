@@ -19,6 +19,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = require("../../config");
 const index_1 = __importDefault(require("../../db/index"));
+const authenticateJwt_1 = require("../../middleware/authenticateJwt");
 exports.router = express_1.default.Router();
 exports.router.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log("inside signup");
@@ -37,7 +38,7 @@ exports.router.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, f
     try {
         const trucker = yield index_1.default.trucker.create({
             data: {
-                username,
+                username: username.toLowerCase(),
                 password: hashedPassword,
                 phone,
                 vehicleType,
@@ -70,7 +71,7 @@ exports.router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, fu
     try {
         const trucker = yield index_1.default.trucker.findUnique({
             where: {
-                username: parsedData.data.username,
+                username: parsedData.data.username.toLowerCase(),
             },
         });
         if (!trucker) {
@@ -87,6 +88,7 @@ exports.router.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, fu
         }, config_1.JWT_PASSWORD);
         res.json({
             token,
+            truckerId: trucker.id,
         });
     }
     catch (e) {
@@ -103,7 +105,6 @@ exports.router.post("/update-location", (req, res) => __awaiter(void 0, void 0, 
             where: { id },
             data: { latitude: lat, longitude: lng },
         });
-        console.log(trucker);
         res.json({ message: "Location updated successfully", trucker });
     }
     catch (error) {
@@ -114,7 +115,14 @@ exports.router.post("/update-location", (req, res) => __awaiter(void 0, void 0, 
 exports.router.get("/locations", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const truckers = yield index_1.default.trucker.findMany({
-            select: { id: true, username: true, latitude: true, longitude: true, licenseNo: true, vehicleType: true },
+            select: {
+                id: true,
+                username: true,
+                latitude: true,
+                longitude: true,
+                licenseNo: true,
+                vehicleType: true,
+            },
         });
         res.json(truckers);
     }
@@ -122,4 +130,7 @@ exports.router.get("/locations", (req, res) => __awaiter(void 0, void 0, void 0,
         console.error("Error fetching locations:", error);
         res.status(500).json({ error: "Failed to retrieve locations" });
     }
+}));
+exports.router.get("/me", authenticateJwt_1.authenticateJwt, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.status(200).json({ message: "Hello, you are logged in" });
 }));

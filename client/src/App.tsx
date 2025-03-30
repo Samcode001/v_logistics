@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import TruckerDashboard from "./pages/TruckerDashboard";
 import TruckerprotectedRoute from "./routes/TruckerprotectedRoute";
 import ShipperprotectedRoute from "./routes/ShipperprotectedRoute";
+import ChatInbox from "./pages/ChatInbox";
 
 function App() {
   return (
@@ -13,20 +14,21 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/inbox" element={<ChatInbox />} />
           <Route
             path="/trucker"
             element={
-              <TruckerprotectedRoute>
-                <TruckerDashboard />
-              </TruckerprotectedRoute>
+              // <TruckerprotectedRoute>
+              // </TruckerprotectedRoute>
+              <TruckerDashboard />
             }
           />
           <Route
             path="/"
             element={
-              <ShipperprotectedRoute>
-                <HomePage />
-              </ShipperprotectedRoute>
+              // <ShipperprotectedRoute>
+              // </ShipperprotectedRoute>
+              <HomePage />
             }
           />
         </Routes>

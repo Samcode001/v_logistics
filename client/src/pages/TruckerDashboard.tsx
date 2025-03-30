@@ -14,7 +14,8 @@ const TruckerDashboard = () => {
   const navigate = useNavigate();
   const truckerId = localStorage.getItem("truckerId");
   useEffect(() => {
-    ws.current = new WebSocket("https://v-logistics-1.onrender.com/");
+    // ws.current = new WebSocket("https://v-logistics-1.onrender.com/");
+    ws.current = new WebSocket("http://localhost:8080/");
 
     ws.current.onopen = () => console.log("WebSocket Connected");
     ws.current.onclose = () => console.log("WebSocket Disconnected");
@@ -29,18 +30,15 @@ const TruckerDashboard = () => {
           };
 
           // Send location update to backend
-          fetch(
-            "https://v-logistics.onrender.com/api/v1/trucker/update-location",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                id: data.truckerId,
-                lat: data.lat,
-                lng: data.lng,
-              }),
-            }
-          );
+          fetch("http://localhost:3000/api/v1/trucker/update-location", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              id: data.truckerId,
+              lat: data.lat,
+              lng: data.lng,
+            }),
+          });
 
           return updatedTruckers;
         });
@@ -88,7 +86,7 @@ const TruckerDashboard = () => {
     }
 
     try {
-      await axios.get("https://v-logistics.onrender.com/api/v1/trucker/me", {
+      await axios.get("http://localhost:3000/api/v1/trucker/me", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

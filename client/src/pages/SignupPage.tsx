@@ -83,7 +83,7 @@ const SignupPage = () => {
     console.log(formData);
     try {
       const response = await axios.post(
-        "https://v-logistics.onrender.com/api/v1/shipper/signup",
+        "http://localhost:3000/api/v1/shipper/signup",
         formData
       );
 
